@@ -60,3 +60,47 @@ module.exports.comprasReadOne = function(req,res){
     }
 };
 
+module.exports.comprasCreate = function(req,res){
+  Compra.create({
+    nroCompra : req.body.nroCompra,
+    montoTotal: req.body.montoTotal,
+    formaDePagap: req.body.formaDePago,
+    nroTarjeta: req.body.nroTarjeta,
+    facilities: req.body.facilities.split(","), //?? crea un array indicando que esta separado con coma
+    productos : [{
+        codigo: req.body.codigo,
+        monto: req.body.monto
+    }],
+  }, function (err, compra){
+      if (err) {
+          sendJsonResponse(res, 400, err);
+      } else {
+          sendJsonResponse(res, 201, compra)
+      }
+  });
+};
+
+module.exports.comprasDeleteOne = function(req,res){
+    var nroCompra = req.params.nroCompra;
+    if(nroCompra){
+        Compra.findByNroCompra(nroCompra).exec(function(err,compra){
+            if(err){
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+               sendJsonResponse(res, 204, null);
+        });
+    } else{
+        sendJsonResponse(res, 404, {
+            "message" : "Not nroCompra in request"
+        });
+    }
+};
+
+module.exports.comprasListByFormaDePago = function (req,res){
+
+}
+
+module.exports.comprasUpdateOne = function(req,res){
+
+}
