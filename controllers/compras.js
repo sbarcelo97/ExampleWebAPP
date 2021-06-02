@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const assert= require('assert');
 const dbName ='compras';
-const url= 'mongodb://Sofia:sofia97@192.168.1.41:27017/'+dbName;
+const url= 'mongodb://Sofia:sofia97@192.168.1.42:27017/'+dbName;
 var Schema = mongoose.Schema;
 
 // Create compra Schema
