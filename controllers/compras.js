@@ -66,7 +66,6 @@ module.exports.comprasCreate = function(req,res){
     montoTotal: req.body.montoTotal,
     formaDePagap: req.body.formaDePago,
     nroTarjeta: req.body.nroTarjeta,
-    facilities: req.body.facilities.split(","), //?? crea un array indicando que esta separado con coma
     productos : [{
         codigo: req.body.codigo,
         monto: req.body.monto
