@@ -8,4 +8,4 @@ router.put('/compras/:nroCompra', ctrlCompras.comprasUpdateOne);
 router.delete('/compras/:nroCompra', ctrlCompras.comprasDeleteOne);
 router.get('/compras', ctrlCompras.comprasListByFormaDePago);
 
-export default router;
+module.exports = router;
