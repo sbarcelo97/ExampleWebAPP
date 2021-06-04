@@ -1,6 +1,6 @@
-var express = requiere('express');
+var express = require('express');
+var ctrlCompras = require('./controllers/compras');
 var router = express.Router();
-var ctrlCompras = requiere('../controllers/compras.js');
 
 router.post('/compras', ctrlCompras.comprasCreate);
 router.get('/compras/:nroCompra', ctrlCompras.comprasReadOne);
