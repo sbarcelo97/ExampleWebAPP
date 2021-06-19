@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const assert= require('assert');
-const dbName ='compras';
-const url= 'mongodb://Sofia:sofia97@192.168.1.42:27017/'+dbName;
 var Schema = mongoose.Schema;
+
 
 // Create compra Schema
 var compraSchema = new Schema ({
@@ -31,11 +30,6 @@ compraSchema.methods.findSameCardNumber= function(cb){
 // Create compra Model
 var Compra = mongoose.model('Compra', compraSchema);
 
-// Connect to Mongo
-mongoose.connect(url, function (err) {
-    if (err) throw err;
-    console.log('Successfully connected');
-})
 
 // Create function to get one compra by nroCompra
 module.exports.comprasReadOne = function(req,res){
@@ -60,17 +54,30 @@ module.exports.comprasReadOne = function(req,res){
     }
 };
 
+module.exports.comprasReadAll = (req,res,next){
+    console.log("read all");
+    Compra.find(function(err,compra){
+        if(err){
+            return next(err)
+        }
+        res.json(compra)
+    });
+}
+
 module.exports.comprasCreate = function(req,res){
-  Compra.create({
+    console.log("Creando compra");  
+    Compra.create({
     nroCompra : req.body.nroCompra,
     montoTotal: req.body.montoTotal,
-    formaDePagap: req.body.formaDePago,
+    formaDePago: req.body.formaDePago,
     nroTarjeta: req.body.nroTarjeta,
     productos : [{
         codigo: req.body.codigo,
         monto: req.body.monto
     }],
+    
   }, function (err, compra){
+    
       if (err) {
           sendJsonResponse(res, 400, err);
       } else {
@@ -87,6 +94,7 @@ module.exports.comprasDeleteOne = function(req,res){
                 sendJsonResponse(res, 404, err);
                 return;
             }
+               console.log(compra)
                sendJsonResponse(res, 204, null);
         });
     } else{
@@ -97,9 +105,43 @@ module.exports.comprasDeleteOne = function(req,res){
 };
 
 module.exports.comprasListByFormaDePago = function (req,res){
-
+    var formaDePago= req.params.formaDePago;
+    if(formaDePago){
+        Compra.findByFormaDePago( formaDePago, function (err, compras) {
+            if(err){
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+                console.log("Buscando por forma de pago = "+formaDePago+" encontramos : ")
+                console.log(compras);
+               sendJsonResponse(res, 204, null);
+        });
+    } else{
+        sendJsonResponse(res, 404, {
+            "message" : "Not forma de pago in request"
+        });
+    }
 }
 
 module.exports.comprasUpdateOne = function(req,res){
+    var nroCompra = req.params.nroCompra;
+    if(nroCompra){
+        Compra.findByIdAndUpdate(req.params.nroCompra, req.body, function (err, compra){
+            if(err){
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+           
+            console.log("Update the document with id: "+ compra);
+            cb(result);
+               sendJsonResponse(res, 204, null);
+            
+        });
+            
+    } else{
+        sendJsonResponse(res, 404, {
+            "message" : "Not nroCompra in request"
+        });
+    }
 
 }
