@@ -20,7 +20,7 @@ compraSchema.statics.findByFormaDePago = function (fdp, cb) {
 }
 
 compraSchema.statics.findByNroCompra = function (nroCompra, cb) {
-    return this.find({ nroCompra: 2  }, cb);
+    return this.find({ nroCompra: nroCompra  }, cb);
 }
 
 compraSchema.methods.findSameCardNumber= function(cb){
@@ -36,21 +36,16 @@ module.exports.comprasReadOne = function(req,res){
     if(req.params && req.params.nroCompra){
         Compra.findByNroCompra(req.params.nroCompra).exec(function(err,compra){
             if(!compra){
-                sendJsonResponse(res,404,{
-                    "message" : "nroCompra not found"
-                });
-                return;
+                res.status(404).send("No hay nroCompra en el request")
             } else if(err){
-                sendJsonResponse(res,404,err);
+                res.status(404).send(err)
                 return;
             }
-            sendJsonResponse(res,202,compra);
+            res.json(compra)
             return;
         })
     } else{
-        sendJsonResponse(res,404, {
-            "message" : "Not nroCompra in request"
-        });
+        res.status(404).send("ocurrio un error")
     }
 };
 
@@ -58,7 +53,7 @@ module.exports.comprasReadAll = function(req,res,next){
     console.log("read all");
     Compra.find(function(err,compra){
         if(err){
-            return next(err)
+            res.status(404).send("Ocurrio un error")
         }
         res.json(compra)
     });
@@ -66,22 +61,11 @@ module.exports.comprasReadAll = function(req,res,next){
 
 module.exports.comprasCreate = function(req,res){
     console.log("Creando compra");  
-    Compra.create({
-    nroCompra : req.body.nroCompra,
-    montoTotal: req.body.montoTotal,
-    formaDePago: req.body.formaDePago,
-    nroTarjeta: req.body.nroTarjeta,
-    productos : [{
-        codigo: req.body.codigo,
-        monto: req.body.monto
-    }],
-    
-  }, function (err, compra){
-    
+    Compra.create(req.body, function (err, compra){
       if (err) {
-          sendJsonResponse(res, 400, err);
+        res.status(404).send("Ocurrio un error")
       } else {
-          sendJsonResponse(res, 201, compra)
+          res.json(compra)
       }
   });
 };
@@ -89,18 +73,15 @@ module.exports.comprasCreate = function(req,res){
 module.exports.comprasDeleteOne = function(req,res){
     var nroCompra = req.params.nroCompra;
     if(nroCompra){
-        Compra.findByNroCompra(nroCompra).exec(function(err,compra){
+        Compra.findOneAndDelete({"nroCompra": nroCompra}, function (err, compra){
             if(err){
-                sendJsonResponse(res, 404, err);
-                return;
+                res.status(404).send("Ocurrio un error")
             }
-               console.log(compra)
-               sendJsonResponse(res, 204, null);
+            res.json(compra)
+        
         });
     } else{
-        sendJsonResponse(res, 404, {
-            "message" : "Not nroCompra in request"
-        });
+        res.status(404).send("No hay nroCompra en el request")
     }
 };
 
@@ -109,39 +90,32 @@ module.exports.comprasListByFormaDePago = function (req,res){
     if(formaDePago){
         Compra.findByFormaDePago( formaDePago, function (err, compras) {
             if(err){
-                sendJsonResponse(res, 404, err);
+                res.status(404).send("Ocurrio un error")
                 return;
             }
-                console.log("Buscando por forma de pago = "+formaDePago+" encontramos : ")
-                console.log(compras);
-               sendJsonResponse(res, 204, null);
+                res.json(compras)
         });
     } else{
-        sendJsonResponse(res, 404, {
-            "message" : "Not forma de pago in request"
-        });
+        res.status(404).send("No hay formaDePago en el request")
     }
 }
 
 module.exports.comprasUpdateOne = function(req,res){
     var nroCompra = req.params.nroCompra;
+    console.log("Va a updatear")
     if(nroCompra){
-        Compra.findByIdAndUpdate(req.params.nroCompra, req.body, function (err, compra){
+        Compra.findOneAndUpdate({"nroCompra": nroCompra}, req.body, function (err, compra){
             if(err){
-                sendJsonResponse(res, 404, err);
-                return;
+                res.status(404).send("Ocurrio un error")
             }
            
-            console.log("Update the document with id: "+ compra);
-            cb(result);
-               sendJsonResponse(res, 204, null);
+            console.log("Update the document with id: "+ compra._id);
+            res.json(compra)
             
         });
             
     } else{
-        sendJsonResponse(res, 404, {
-            "message" : "Not nroCompra in request"
-        });
+        res.status(404).send("No hay nroCompra en el request")
     }
 
 }
