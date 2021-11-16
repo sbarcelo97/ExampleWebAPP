@@ -7,6 +7,15 @@ Members : Sofia Barcelo, Agustina Behotas
 * Model and controller: compras_api/model/Compras.js
 * App: compras_api/app.js
 
+#To run the nodejs server in port 3000
+*make sure mongodb is running
+*go to comprasapi folder
+*npm start
+
+#To run the angular app in port 4000
+*go to frontend folder
+*ng serve
+
 # Commands to test
 In app.js file configure the mongo connection
   # POST 

@@ -4,8 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose= require('mongoose');
+const cors = require('cors');
 const dbName ='compras';
-const url= 'mongodb://Sofia:sofia97@192.168.0.123:27017/'+dbName;
+const url= 'mongodb://Sofia:sofia97@localhost:27017/'+dbName;
 
 // Connect to Mongo
 mongoose.connect(url, function (err) {
@@ -24,6 +25,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

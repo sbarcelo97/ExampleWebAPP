@@ -1,0 +1,9 @@
+<h1>Crea una nueva compra</h1>
+<form (submit)="createCompra()">
+<div>
+    <input type="text" [(ngModel)]="compra.id" name="id" class="form-control" placeholder="numero de compra"/>
+</div>
+<div>
+    <button type="submit" name="submit" >Enviar</button>
+</div>
+</form>
