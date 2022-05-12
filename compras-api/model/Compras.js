@@ -61,6 +61,7 @@ module.exports.comprasReadAll = function(req,res,next){
 
 module.exports.comprasCreate = function(req,res){
     console.log("Creando compra");  
+    console.log(req.body);
     Compra.create(req.body, function (err, compra){
       if (err) {
         res.status(404).send("Ocurrio un error")

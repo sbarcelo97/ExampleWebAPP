@@ -1,9 +1,38 @@
 <h1>Crea una nueva compra</h1>
 <form (submit)="createCompra()">
 <div>
-    <input type="text" [(ngModel)]="compra.id" name="id" class="form-control" placeholder="numero de compra"/>
+    <input type="text" [(ngModel)]="compra.nroCompra" name="nroCompra" class="form-control" placeholder="numero de compra"/>
+    <input type="number" [(ngModel)]="compra.montototal" name="montototal" placeholder="monto total">
+    <select name="formadepago" [(ngModel)]="compra.formadepago" name="formadepago" id="formadepago">
+        <option value="ef">Efectivo</option>
+        <option value="credito">Credito</option>
+        <option value="debito">Debito</option>
+      </select>
+    
 </div>
 <div>
     <button type="submit" name="submit" >Enviar</button>
 </div>
+
 </form>
+<h1>ComprasExistentes</h1>
+<div name="Compras">
+    <table>
+        <thead>
+            <th>Nro Compra</th>
+            <th>Monto total</th>
+            <th>Forma de pago</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of comprasService.compras">
+            <td>{{c.nroCompra}}</td>
+            <td>{{c.montototal}}</td>
+            <td>{{c.formadepago}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+    
+
+
+</div>
