@@ -14,6 +14,12 @@ export class ComprasService {
   selectedCompra!: Compra;
 
   constructor(private http: HttpClient, private router: Router) { }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    
+    this.getCompras().subscribe()
+  }
 
   // signUpUser(user) {
   //   return this.http.post<any>(this.URL + '/signup', user);

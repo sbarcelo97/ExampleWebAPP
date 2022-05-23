@@ -1,21 +1,75 @@
-<h1>Crea una nueva compra</h1>
-<form (submit)="createCompra()">
-<div>
-    <input type="text" [(ngModel)]="compra.nroCompra" name="nroCompra" class="form-control" placeholder="numero de compra"/>
-    <input type="number" [(ngModel)]="compra.montototal" name="montototal" placeholder="monto total">
-    <select name="formadepago" [(ngModel)]="compra.formadepago" name="formadepago" id="formadepago">
-        <option value="ef">Efectivo</option>
-        <option value="credito">Credito</option>
-        <option value="debito">Debito</option>
-      </select>
+<mat-card>
+<form class="compra-form" (submit)="createCompra()">
+    <mat-card-title>Nueva Compra</mat-card-title>
+    <mat-form-field class="compra-full-width" appearance="fill"   name="nroCompra">
+      <mat-label>Número de compra</mat-label>
+      <input matInput [(ngModel)]="compra.nroCompra" >
+    </mat-form-field>
+
+    <mat-form-field class="selector-formadepago" appearance="standard">
+        <mat-label>Forma de pago</mat-label>
+        <input type="text"
+               placeholder="Elegir"
+               aria-label="Forma de pago"
+               matInput
+               [matAutocomplete]="auto"
+               [(ngModel)]="compra.formadepago" name="formadepago"
+               >
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
+          <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.value">
+            {{option.key}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-card class="card-productos">
+        <mat-card-title>Productos</mat-card-title>
+        <div class="Add-product">
+            <mat-label>Agregar</mat-label>
+            <button class="btn-product" (click)="addProduct()">
+                <mat-icon >add</mat-icon>
+            </button>
+        </div>
+        <div class="products-list" *ngFor="let product of compra.products">
+            <mat-label>{{product.codigo}}</mat-label>
+            <button class="btn-product" (click)="deleteproduct(product.codigo,product.monto)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <mat-label>Monto total: ${{this.compra.montototal}}</mat-label>
+        </div>
+    </mat-card>
     
+      <button mat-button type="submit" name="submit">Enviar</button>
+    </form>
+</mat-card>
+<!-- <h1>Crea una nueva compra</h1>
+<form (submit)="createCompra()">
+<div class="inputs">
+    <p>
+        <mat-form-field appearance="standard" [(ngModel)]="compra.nroCompra" name="nroCompra">
+          <input matInput placeholder="Numero de compra">
+        </mat-form-field>
+      </p>
+<div class="formadePago">
+      <mat-form-field class="selector-formadepago" appearance="standard">
+        <input type="text"
+               placeholder="Elegir"
+               aria-label="Forma de pago"
+               matInput
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.value">
+            {{option.key}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+</div>
 </div>
 <div>
-    <button type="submit" name="submit" >Enviar</button>
+    <button  >Enviar</button>
 </div>
 
-</form>
-<h1>ComprasExistentes</h1>
+</form> -->
+<!-- <h1>ComprasExistentes</h1>
 <div name="Compras">
     <table>
         <thead>
@@ -24,7 +78,7 @@
             <th>Forma de pago</th>
         </thead>
         <tbody>
-            <tr *ngFor="let c of comprasService.compras">
+            <tr *ngFor="let c of compras" >
             <td>{{c.nroCompra}}</td>
             <td>{{c.montototal}}</td>
             <td>{{c.formadepago}}</td>
@@ -35,4 +89,4 @@
     
 
 
-</div>
+</div> -->

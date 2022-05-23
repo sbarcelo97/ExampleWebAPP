@@ -6,8 +6,8 @@ export class Compra {
       this.montototal = montototal;
     }
   
-    nroCompra : Number;
-    products : [{codigo: Number, monto: Number}];
+    nroCompra : number;
+    products : [{codigo: number, monto: number}];
     formadepago: string;
     montototal: number;
   }

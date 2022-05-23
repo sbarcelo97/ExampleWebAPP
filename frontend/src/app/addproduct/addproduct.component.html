@@ -1,0 +1,12 @@
+<mat-card>
+    <mat-card-title>Agregar Producto</mat-card-title>
+    <mat-form-field class="compra-full-width" appearance="fill"   name="codigo" >
+      <mat-label>Código</mat-label>
+      <input matInput type="number" #codigo>
+    </mat-form-field>
+    <mat-form-field class="compra-full-width" appearance="fill"   name="monto" >
+        <mat-label>Monto en $</mat-label>
+        <input type="number" matInput #monto>
+    </mat-form-field>
+    <button mat-button (click)="agregar(codigo.value,monto.value)" >Agregar</button>
+</mat-card>
