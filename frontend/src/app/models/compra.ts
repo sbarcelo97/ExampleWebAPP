@@ -1,13 +1,15 @@
 export class Compra {
-    constructor( nroCompra= 0, formadepago = "", montototal = 0, products: [{ codigo:0,monto:0 }]) {
+    constructor( nroCompra= 0, formaDePago = "", montoTotal = 0, nroTarjeta=0, productos: [{ codigo:number,monto:number }]) {
       this.nroCompra=nroCompra;
-      this.products = products;
-      this.formadepago = formadepago;
-      this.montototal = montototal;
+      this.productos = productos;
+      this.formaDePago = formaDePago;
+      this.montoTotal = montoTotal;
+      this.nroTarjeta = nroTarjeta;
     }
   
     nroCompra : number;
-    products : [{codigo: number, monto: number}];
-    formadepago: string;
-    montototal: number;
+    productos : [{codigo: number, monto: number}];
+    formaDePago: string;
+    montoTotal: number;
+    nroTarjeta: number;
   }

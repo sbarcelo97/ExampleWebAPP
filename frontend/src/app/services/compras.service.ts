@@ -21,20 +21,22 @@ export class ComprasService {
     this.getCompras().subscribe()
   }
 
-  // signUpUser(user) {
-  //   return this.http.post<any>(this.URL + '/signup', user);
-  // }
     createCompra(compra:Compra){
-      console.log("creando compra")
-      console.log(compra);
       this.compras.push(compra);
       return this.http.post<any>(this.URL , compra)
       
     }
 
     getCompras(){
-      console.log(this.http.get(this.URL));
       return  this.http.get<Compra[]>(this.URL);
+    }
+
+    deleteCompra(nroCompra:number){
+      return this.http.delete(this.URL+'/'+nroCompra);
+    }
+
+    updateCompra(compra:Compra){
+      return this.http.put(this.URL+'/'+compra.nroCompra,compra);
     }
 
 }

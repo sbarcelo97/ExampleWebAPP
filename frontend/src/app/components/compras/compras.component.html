@@ -1,92 +1,133 @@
-<mat-card>
-<form class="compra-form" (submit)="createCompra()">
-    <mat-card-title>Nueva Compra</mat-card-title>
-    <mat-form-field class="compra-full-width" appearance="fill"   name="nroCompra">
-      <mat-label>Número de compra</mat-label>
-      <input matInput [(ngModel)]="compra.nroCompra" >
-    </mat-form-field>
+<mat-tab-group [selectedIndex]="selectedIndex">
+  <mat-tab label="Compras" class="primary"> 
+    <mat-toolbar>
+      <span>Listado de Compras</span>
+      <span class="spacer"></span>
+      <button mat-button (click)="setBuscar()">
+        <mat-icon>search</mat-icon>
+        </button>
+      <input *ngIf="buscar" class="input-buscar" type="text"
+                    placeholder="Buscar"
+                    aria-label="Buscar"
+                    matInput
+                    [(ngModel)]="busqueda"
+                    (keyup)="filtrarCompras($event)"
+                    name="input-buscar"
+              >
+    </mat-toolbar>
+      <table mat-table [dataSource]="comprasSource" matSort  class="mat-elevation-z8 w-100">
+      
+        <!-- Nro Column -->
+        <ng-container matColumnDef="nroCompra">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="nroCompra" sortActionDescription="Ordenar por Nro.">
+            Nro.
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.nroCompra}} </td>
+        </ng-container>
+        
+        <!-- Pago Column -->
+        <ng-container matColumnDef="formaDePago">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="formaDePago" sortActionDescription="Ordenar por Forma de Pago">
+            Forma de pago
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.formaDePago}} </td>
+        </ng-container>
 
-    <mat-form-field class="selector-formadepago" appearance="standard">
-        <mat-label>Forma de pago</mat-label>
-        <input type="text"
-               placeholder="Elegir"
-               aria-label="Forma de pago"
-               matInput
-               [matAutocomplete]="auto"
-               [(ngModel)]="compra.formadepago" name="formadepago"
-               >
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
-          <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.value">
-            {{option.key}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-card class="card-productos">
-        <mat-card-title>Productos</mat-card-title>
-        <div class="Add-product">
-            <mat-label>Agregar</mat-label>
-            <button class="btn-product" (click)="addProduct()">
-                <mat-icon >add</mat-icon>
-            </button>
-        </div>
-        <div class="products-list" *ngFor="let product of compra.products">
-            <mat-label>{{product.codigo}}</mat-label>
-            <button class="btn-product" (click)="deleteproduct(product.codigo,product.monto)">
-                <mat-icon>delete</mat-icon>
-            </button>
-            <mat-label>Monto total: ${{this.compra.montototal}}</mat-label>
-        </div>
-    </mat-card>
-    
-      <button mat-button type="submit" name="submit">Enviar</button>
-    </form>
-</mat-card>
-<!-- <h1>Crea una nueva compra</h1>
-<form (submit)="createCompra()">
-<div class="inputs">
-    <p>
-        <mat-form-field appearance="standard" [(ngModel)]="compra.nroCompra" name="nroCompra">
-          <input matInput placeholder="Numero de compra">
-        </mat-form-field>
-      </p>
-<div class="formadePago">
-      <mat-form-field class="selector-formadepago" appearance="standard">
-        <input type="text"
-               placeholder="Elegir"
-               aria-label="Forma de pago"
-               matInput
-               [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.value">
-            {{option.key}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-</div>
-</div>
-<div>
-    <button  >Enviar</button>
-</div>
+        <!-- Nro Tarjeta -->
+        <ng-container matColumnDef="nroTarjeta">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="nroTarjeta" sortActionDescription="Ordenar por Nro. Tarjeta">
+            Nro. Tarjeta
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.nroTarjeta}} </td>
+        </ng-container>
+        
+        <!-- Monto Column -->
+        <ng-container matColumnDef="montoTotal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="montoTotal" sortActionDescription="Ordenar por Monto">
+            Monto Total
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.montoTotal}} </td>
+        </ng-container>
 
-</form> -->
-<!-- <h1>ComprasExistentes</h1>
-<div name="Compras">
-    <table>
-        <thead>
-            <th>Nro Compra</th>
-            <th>Monto total</th>
-            <th>Forma de pago</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let c of compras" >
-            <td>{{c.nroCompra}}</td>
-            <td>{{c.montototal}}</td>
-            <td>{{c.formadepago}}</td>
-        </tr>
-        </tbody>
-
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef >
+            Acciones
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button class="btn-compras" (click)="editCompra(element)"><mat-icon>edit</mat-icon></button> 
+            <button mat-raised-button class="btn-compras accent" (click)="deleteCompra(element.nroCompra)"><mat-icon>delete</mat-icon></button> 
+          </td>
+        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    
-
-
-</div> -->
+    <mat-paginator [length]="comprasSource.data.length" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </mat-tab>
+  
+  <mat-tab label="Nueva Compra">
+    <div class="main-div">
+      <mat-card>
+        <mat-card-header color="primary" class="header-compra">
+          <mat-card-title>Nueva Compra</mat-card-title>
+        </mat-card-header>
+        <form class="compra-form" (submit)="submitCompra()">
+            <mat-form-field class="compra-full-width" appearance="fill">
+              <mat-label>Número de compra</mat-label>
+              <input matInput disabled  name="nroCompra" value={{this.compra.nroCompra}} >
+            </mat-form-field>
+            <mat-form-field class="selector-formaDePago" appearance="standard">
+                <mat-label>Forma de pago</mat-label>
+                <input type="text"
+                      placeholder="Elegir"
+                      aria-label="Forma de pago"
+                      matInput
+                      [matAutocomplete]="auto"
+                      [(ngModel)]="compra.formaDePago" 
+                      name="formaDePago"
+                      >
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
+                  <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.key">
+                    {{option.value}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-form-field *ngIf="compra.formaDePago && compra.formaDePago!='ef'" class="nro-tarjeta" appearance="standard">
+                <mat-label>Nro. Tarjeta</mat-label>
+                <input type="number"
+                      placeholder="Nro. Tarjeta"
+                      aria-label="Nro. Tarjeta"
+                      matInput
+                      [(ngModel)]="compra.nroTarjeta" 
+                      name="nroTarjeta"
+                >
+              </mat-form-field>
+              <mat-card class="card-productos">
+                <mat-card-header class="header-compra">
+                  <mat-card-title class="title-small">Productos</mat-card-title>
+                </mat-card-header>
+                <div class="Add-product">
+                    <mat-label>Agregar</mat-label>
+                    <button type="button" class="btn-product btn-compras" (click)="addProduct()">
+                        <mat-icon class="icon-add">add</mat-icon>
+                    </button>
+                </div>
+                <div class="products-list" *ngFor="let product of compra.productos">
+                    <mat-label class="label-codigo">{{product.codigo}}</mat-label>
+                    <mat-label class="label-monto" >${{product.monto}}</mat-label>
+                    <button mat-button class="btn-product accent-color" (click)="deleteproduct(product.codigo,product.monto)">
+                        <mat-icon class="icon-add">delete</mat-icon>
+                    </button>
+                </div>
+                <div class="products-list-footer">
+                  <mat-label>Monto total: ${{this.compra.montoTotal}}</mat-label>
+                </div>
+              </mat-card>
+              <div mat-dialog-actions align="end">
+                <button mat-raised-button class="accent" type="submit" appearence name="submit">Enviar</button>
+              </div>
+        </form>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>

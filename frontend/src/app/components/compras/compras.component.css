@@ -1,12 +1,16 @@
 .compra-form {
     min-width: 150px;
     max-width: 500px;
-    width: 100%;
-  }
+    padding: 15px;
+}
+
+.compra-form.mat-form-field{
+    padding: 10px;
+}
   
-  .compra-full-width {
-    width: 100%;
-  }
+.compra-full-width {
+width: 100%;
+}
 
 mat-divider{
     margin: 2px;
@@ -19,13 +23,55 @@ mat-divider{
     width: 30px;
     align-items: center;
     justify-content: center;
+}
+
+.btn-compras{
+    background-color: #446063;
+    border: 0px;
     margin-left: 10px;
+}
+
+.primary{
+    background-color: #446063;
+}
+
+.mat-tab-label-container{
+    background-color: #446063!important;
+}
+
+.primary-color{
+    color: #446063;
+}
+
+.accent{
+    background-color:#f7a072;
+    color: white;
+}
+
+.accent-color{
+    color:#f7a072;
+}
+
+.btn-compras mat-icon{
+    color: white;
 }
 
 .products-list{
     display: flex;
     align-items: center;
+    justify-content: center;
     margin: 10px;
+}
+
+.products-list-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #446063;
+    color: white;
+    margin-top: 21px;
+    font-weight: 500;
 }
 
 .Add-product{
@@ -35,5 +81,102 @@ mat-divider{
 }
 
 .card-productos{
-    margin: 10px;
+    margin: 10px 0px;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+.input-buscar{
+    max-width: 30%;
+}
+
+.w-100{
+    width: 100%;
+}
+
+.mat-sort-header-container {
+    align-items: center;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+    padding: 0px 20px 0px 20px;
+    width: 20%;
+}
+
+.main-div{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-form-field{
+    padding: 10px;
+}
+
+.label-codigo{
+    width: 50%;
+}
+
+.label-monto{
+    margin-left:5px ;
+    width: 15%;
+}
+
+.header-compra{
+    background-color: #446063;
+    border-radius: 4px 4px 0 0;
+    color: white;
+    padding: 3px;
+}
+
+.mat-card{
+    padding: 0px;
+}
+
+.mat-card-header{
+    justify-content: center;
+}
+
+.mat-card-title{
+    margin-top: 8px;
+    padding: 5px;
+}
+
+.title-small{
+    font-size: 16px;
+    padding: 0px;
+}
+
+.mat-tab-group{
+    height: 100%;
+}
+
+::ng-deep .mat-tab-labels{
+    background-color: #446063;
+    color: white;
+}
+
+::ng-deep .mat-tab-label{
+    color: white;
+}
+
+::ng-deep .mat-paginator-range-actions .mat-icon-button{
+    color: burlywood;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+    height: 100%;
+  
+}
+  
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+height: 100%;
+
+}
+
+::ng-deep .mat-option.mat-selected:not(.mat-option-disabled) {
+    color:#446063 !important;
 }
