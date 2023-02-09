@@ -85,6 +85,7 @@
                       [matAutocomplete]="auto"
                       [(ngModel)]="compra.formaDePago" 
                       name="formaDePago"
+                      required
                       >
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
                   <mat-option *ngFor="let option of formasdepago |keyvalue" [value]="option.key">
@@ -100,6 +101,7 @@
                       matInput
                       [(ngModel)]="compra.nroTarjeta" 
                       name="nroTarjeta"
+                      required
                 >
               </mat-form-field>
               <mat-card class="card-productos">

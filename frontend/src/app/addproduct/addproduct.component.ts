@@ -17,9 +17,13 @@ export class AddproductComponent implements OnInit {
   }
 
   agregar(codigo: string,monto: string){
-    this.nuevo_producto['codigo']=parseInt(codigo);
-    this.nuevo_producto['monto']=parseInt(monto);
-    this.dialog_ref.close(this.nuevo_producto)
+    if(codigo && monto){
+      this.nuevo_producto['codigo']=parseInt(codigo);
+      this.nuevo_producto['monto']=parseInt(monto);
+      this.dialog_ref.close(this.nuevo_producto)
+    }else{
+      alert('Producto incorrecto, por favor complete los datos');
+    }
   }
 
 }

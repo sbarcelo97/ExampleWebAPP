@@ -65,11 +65,32 @@ export class ComprasComponent implements OnInit, AfterViewInit  {
   }
 
   submitCompra(){
-    if(this.selectedIndex){
-      this.updateCompra();
-    }else{
-      this.createCompra();
+    if(this.checkCompra()){
+      if(this.selectedIndex){
+        this.updateCompra();
+      }else{
+        this.createCompra();
+      }
     }
+  }
+  checkCompra() {
+    if(!this.compra.nroCompra){
+      alert('Falta el número de compra');
+      return false;
+    }
+    if(!this.compra.formaDePago){
+      alert('Ingrese forma de pago');
+      return false;
+    }
+    if(this.compra.formaDePago!='ef' && !this.compra.nroTarjeta){
+      alert('Ingrese el número de tarjeta');
+      return false;
+    }
+    if(!this.compra.montoTotal){
+      alert('El monto debe ser mayor a 0');
+      return false;
+    }
+    return true;
   }
 
   updateCompra(){
