@@ -54,7 +54,7 @@ export class ComprasComponent implements OnInit, AfterViewInit  {
     this.comprasSource.paginator._intl.itemsPerPageLabel ='';
     this.comprasSource.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
       const start = page * pageSize + 1;
-      const end = (page + 1) * pageSize;
+      const end = (page + 1) * pageSize < length ? (page + 1) * pageSize : length;
       return `${start} - ${end} de ${length}`;
     };
   }
